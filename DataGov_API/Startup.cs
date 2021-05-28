@@ -25,7 +25,7 @@ namespace DataGov_API
         {
             services.AddRazorPages();
             // Added from MVC template
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc(); //  options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,12 +43,22 @@ namespace DataGov_API
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+            endpoints.MapDefaultControllerRoute();                
+            });
+
+            /*
+             * app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            */
+
 
             /*
              * if (env.IsDevelopment())
