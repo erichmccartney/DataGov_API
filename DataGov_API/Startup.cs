@@ -15,7 +15,7 @@ namespace DataGov_API
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -24,12 +24,44 @@ namespace DataGov_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            // Added from MVC template
+            services.AddMvc(); //  options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
+            {
+                // app.UseBrowserLink(); //"UseBrowswerLink" connects browser during development
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+            endpoints.MapDefaultControllerRoute();                
+            });
+
+            /*
+             * app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            */
+
+
+            /*
+             * if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -50,7 +82,7 @@ namespace DataGov_API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-            });
+            });*/
         }
     }
 }
